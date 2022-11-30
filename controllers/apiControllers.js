@@ -3,6 +3,7 @@ const { Category, Product } = require('../models/menu');
 const Footer = require('../models/footer');
 const ImageUrl = require('../models/image-url');
 const Transaction = require('../models/transaction');
+const { getImageDownloadUrl } = require('../firebase/fb-storage');
 
 const getCategories = async (req, res) => {
     try {
@@ -25,6 +26,9 @@ const getProduct = async (req, res) => {
     if (!product) {
         return res.status(404).json({errorMessage: 'Product ID: ' + id + ' does not exist.'})
     }
+
+    product.imageFullUrl = await getImageDownloadUrl(product.imageFullUrl);
+    product.imageGridUrl = await getImageDownloadUrl(product.imageGridUrl);
 
     res.status(200).json(product);
 }
@@ -50,6 +54,8 @@ const getImageUrl = async (req, res) => {
     if (!imageUrl) {
         return res.status(404).json({errorMessage: 'Image Url ID: ' + id + ' does not exist.'})
     }
+
+    imageUrl.url = await getImageDownloadUrl(imageUrl.url);
 
     res.status(200).json(imageUrl);
 }
