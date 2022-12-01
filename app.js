@@ -14,14 +14,14 @@ const port = process.env.PORT;
 app.use(express.json());
 
 // middleware to serve static angular files
-app.use(express.static(path.join(__dirname, '../my-project/dist/my-project')));
+app.use(express.static(path.join(__dirname, './dist/frontend')));
 
 // middleware for all api routes
 app.use('/api/', apiRoutes);
 
 // get requests from all url paths
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../my-project/dist/my-project/index.html'));
+    res.sendFile(path.join(__dirname, './dist/frontend/index.html'));
 });
 
 // Connect to database
